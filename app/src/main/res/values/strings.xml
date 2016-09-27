@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Delivery_ui_mobile</string>
+
+    <string name="action_sign_in">Iniciar Sesión</string>
+    <string name="action_sign_in_short">Ingrese</string>
+    <string name="action_reg_in_short">Registrarse</string>
+
+    <!-- Strings related to perfil del usuario  -->
+    <string name="userName">Nombre de Usuario</string>
+    <string name="prompt_user">Usuario</string>
+    <string name="prompt_email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="prompt_name">Nombre</string>
+    <string name="prompt_lastN">Apellido</string>
+    <string name="nombreYApellido">Nombre y Apellido:</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_phoneNumber">Número de Celular</string>
+    <string name="mostrarFecha">Fecha</string>
+    <string name="picture">Seleccionar Foto de Perfil</string>
+    <string name="prompt_fechaNac">Fecha de Nacimiento</string>
+
+    <!--    Mensajes de validación  -->
+    <string name="error_invalid_email">La dirección de correo es inválida</string>
+    <string name="error_invalid_user">El nombre de usuario no debe tener más de 10 caracteres</string>
+    <string name="error_invalid_name">El nombre no puede ser tan corto</string>
+    <string name="error_invalid_lastname">El apellido no puede ser tan corto</string>
+    <string name="error_invalid_fecha">La fecha debe ser anterior al día actual</string>
+    <string name="error_pick_fecha">Debe elegir su fecha de nacimiento</string>
+    <string name="error_invalid_password">La contraseña es demasiado corta. Mínimo 6 caracteres alfanumericos</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_field_required">El campo es obligatorio</string>
+    <string name="error_address_wrong">La dirección debe ser seleccionada entre las brindadas por el autocompletar</string>
+</resources>
