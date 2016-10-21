@@ -1,101 +1,48 @@
 package utn.com.ar.delivery_ui_mobile.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Date;
-
 public class Usuario {
 
-    private Integer id;
-    private String nombre;
-    private String apellido;
-    private String clave;
-    private String nombreUsuario;
-    private String email;
-    private Date fechaNac;
-    private String nroTelefono;
-    private TarjetaCredito tarjeta;
+    private String name;
+    private String password;
+    private String user;
+    private String mail;
 
-    public Usuario(String nombreUsuario, String nombre, String apellido, String clave, String cuil, String email, Date fechaNac, String nroTelefono) {
-        this.nombreUsuario = nombreUsuario;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.clave = clave;
-        this.email = email;
-        this.fechaNac = fechaNac;
-        this.tarjeta = tarjeta;
-        this.nroTelefono = nroTelefono;
+    public Usuario(String user, String name, String password, String mail) {
+        this.user = user;
+        this.name = name;
+        this.password = password;
+        this.mail = mail;
     }
 
-    public Integer getId() {
-        return id;
+    public String getUser() {
+        return user;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public Date getFechaNac() {
-        return fechaNac;
-    }
-
-    public void setFechaNac(Date fechaNac) {
-        this.fechaNac = fechaNac;
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getNombre() {
-        return nombre;
+        return name;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+        this.name = nombre;
     }
 
     public String getClave() {
-        return clave;
+        return password;
     }
 
     public void setClave(String clave) {
-        this.clave = clave;
+        this.password = clave;
     }
 
-
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
-
-    @JsonProperty("tarjeta")
-
-    public void setTarjetaCredito(TarjetaCredito tarjetaCredito) {
-        this.tarjeta = tarjetaCredito;
-    }
-
-    public String getNroTelefono() {
-        return nroTelefono;
-    }
-
-    public void setNroTelefono(String nroTelefono) {
-        this.nroTelefono = nroTelefono;
-    }
-
 }

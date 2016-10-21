@@ -89,22 +89,18 @@ public class RegisterActivity extends AppCompatActivity {
         final String user = etUser.getText().toString();
         final String pasw = etPasw.getText().toString();
         final String name = etName.getText().toString();
-        final String lastName = etApe.getText().toString();
         final String email = etEmail.getText().toString();
-        final String cuil = etCuil.getText().toString();
-        final String phone = etPhone.getText().toString();
 
         Calendar cal = Calendar.getInstance();
         cal.set(mYear, mMonth, mDay);
         Date fechaNac = cal.getTime();
 
-        usuario = new Usuario(user, name, lastName, pasw, cuil, email, fechaNac, phone);
+        usuario = new Usuario(user, name, pasw, email);
         Log.d(TAG, "se inicio registrar");
-        Log.d(TAG, usuario.getNombreUsuario());
+        Log.d(TAG, usuario.getUser());
         Log.d(TAG, usuario.getClave());
-        Log.d(TAG, usuario.getEmail());
+        Log.d(TAG, usuario.getMail());
         Log.d(TAG, usuario.getNombre());
-        Log.d(TAG, String.valueOf(usuario.getId()));
 
         if (validarUsuario(usuario)) {
             focusView.requestFocus();
@@ -129,22 +125,22 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(user.getEmail())) {
+        if (TextUtils.isEmpty(user.getMail())) {
             etEmail.setError(getString(R.string.error_field_required));
             focusView = etEmail;
             cancel = true;
-        } else if (!Util.isEmailValid(user.getEmail())) {
+        } else if (!Util.isEmailValid(user.getMail())) {
             etEmail.setError(getString(R.string.error_invalid_email));
             focusView = etEmail;
             cancel = true;
         }
 
         // Check for a valid user name
-        if (TextUtils.isEmpty(user.getNombreUsuario())) {
+        if (TextUtils.isEmpty(user.getUser())) {
             etUser.setError(getString(R.string.error_field_required));
             focusView = etUser;
             cancel = true;
-        } else if (user.getNombreUsuario().length() > 10) {
+        } else if (user.getUser().length() > 10) {
             etUser.setError(getString(R.string.error_invalid_user));
             focusView = etUser;
             cancel = true;
@@ -160,31 +156,6 @@ public class RegisterActivity extends AppCompatActivity {
             focusView = etName;
             cancel = true;
         }
-        // Check for a valid name.
-        if (TextUtils.isEmpty(user.getApellido())) {
-            etApe.setError(getString(R.string.error_field_required));
-            focusView = etApe;
-            cancel = true;
-
-        } else if (user.getApellido().length() < 3) {
-            etApe.setError(getString(R.string.error_invalid_lastname));
-            focusView = etApe;
-            cancel = true;
-
-        }
-
-        // Check for a valid user name
-//        if (TextUtils.isEmpty(user.getPhoneNumber())) {
-//            etUser.setError(getString(R.string.error_field_required));
-//            focusView = etUser;
-//            cancel = true;
-//        }
-        // Check for a valid phone number.
-        if (TextUtils.isEmpty(user.getNroTelefono())) {
-            etPhone.setError(getString(R.string.error_field_required));
-            focusView = etPhone;
-            cancel = true;
-        }
 
         return cancel;
     }
@@ -196,7 +167,7 @@ public class RegisterActivity extends AppCompatActivity {
             Log.d("34", urls[0]);
 //            TODO aca estaria el JSON, hay que descomponerlo o probar mandarlo asi.
             try {
-                HttpURLConnection httpCon = Util.crearHttpPost("usuarios", "POST", "application/json");
+                HttpURLConnection httpCon = Util.crearHttpPost("signup", "POST", "application/json");
                 OutputStreamWriter wr = new OutputStreamWriter(httpCon.getOutputStream());
                 wr.write(urls[0]);
                 wr.flush();

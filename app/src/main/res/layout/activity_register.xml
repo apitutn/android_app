@@ -86,7 +86,6 @@
             android:hint="@string/prompt_phoneNumber"
             android:inputType="phone" />
 
-
         <Button
             android:id="@+id/btReg"
             android:layout_width="match_parent"

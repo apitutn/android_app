@@ -34,7 +34,6 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
         String value = preferences.getString("username", null);
         if (value == null) {
             Log.d(TAG, "USUARIO ES NULO");
-
         }
     }
 
