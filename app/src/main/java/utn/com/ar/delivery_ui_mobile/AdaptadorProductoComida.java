@@ -62,8 +62,6 @@ public class AdaptadorProductoComida extends BaseAdapter {
 			Bitmap bitmap = BitmapFactory.decodeByteArray(listaProductoComida.get(position).getImagen(), 0, listaProductoComida.get(position).getImagen().length);
 			((ImageView) view.findViewById(R.id.imageViewProducto)).setImageBitmap(bitmap);
 		}
-
-
 		return view;
 	}
 
