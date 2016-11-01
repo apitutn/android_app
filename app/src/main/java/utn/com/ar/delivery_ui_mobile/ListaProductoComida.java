@@ -20,6 +20,7 @@ public class ListaProductoComida extends Activity {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = settings.edit();
         editor.remove("username").apply();
+        ((deliveryApp) this.getApplication()).setLoggedUser(null);
         Intent intentFirst = new Intent(ListaProductoComida.this, FirstActivity.class);
         startActivity(intentFirst);
         finish();
