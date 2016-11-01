@@ -1,4 +1,4 @@
-package utn.com.ar.delivery_ui_mobile;
+package utn.com.ar.delivery_ui_mobile.adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import utn.com.ar.delivery_ui_mobile.ProductoComida;
+import utn.com.ar.delivery_ui_mobile.R;
 
 
 public class AdaptadorProductoComida extends BaseAdapter {

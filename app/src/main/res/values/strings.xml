@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">Delivery fácil</string>
+    <string name="app_name">Tu Delivery</string>
 
     <string name="action_sign_in">Iniciar Sesión</string>
     <string name="action_sign_in_short">Ingrese</string>
     <string name="action_reg_in_short">Registrarse</string>
     <string name="listado_tittle">Listado de productos</string>
+
 
 
     <!-- Strings related to perfil del usuario  -->
@@ -29,4 +30,9 @@
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_field_required">El campo es obligatorio</string>
     <string name="action_sign_out">Cerrar Sesion</string>
+    <string name="selectFood">Seleccionar Comida</string>
+    <string name="comida">Comida</string>
+    <string name="bebida">Bebida</string>
+    <string name="selectDessert">Seleccionar Postre</string>
+    <string name="postre">Postre</string>
 </resources>

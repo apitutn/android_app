@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
+import utn.com.ar.delivery_ui_mobile.adapters.AdaptadorProductoComida;
 import utn.com.ar.delivery_ui_mobile.util.Util;
 
 public class FragmentoListaProductoComida extends Fragment {
-
     private View contexto;
     private AdaptadorProductoComida adaptador;
     private ArrayList<ProductoComida> vectorProductoComida;
@@ -50,7 +51,7 @@ public class FragmentoListaProductoComida extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public class FragmentoPiezaAsincronico extends AsyncTask<String , Intent, Boolean> {
+    public class FragmentoPiezaAsincronico extends AsyncTask<String, Intent, Boolean> {
 
         Activity asyncActividad;
         ProgressDialog dialogo;
@@ -67,32 +68,40 @@ public class FragmentoListaProductoComida extends Fragment {
 
             try {
 
-                HttpURLConnection httpCon = Util.crearHttpPost("products", "GET", "application/x-www-form-urlencoded; charset=UTF-8");
-                OutputStreamWriter wr = new OutputStreamWriter(httpCon.getOutputStream());
+                // Starts the query
+                HttpURLConnection httpCon = Util.crearHttpPost("products/foods", "GET", "application/x-www-form-urlencoded; charset=UTF-8");
+                httpCon.setReadTimeout(10000 /* milliseconds */);
+                httpCon.setConnectTimeout(15000 /* milliseconds */);
 
-                wr.flush();
-                wr.close();
+                httpCon.setRequestProperty("Accept", "application/json");
+                httpCon.setRequestMethod("GET");
+                httpCon.setDoInput(true);
+                InputStream is = null;
 
-                if (httpCon.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                int response = httpCon.getResponseCode();
 
+                if (response == HttpURLConnection.HTTP_OK) {
 
-                    String respStr = httpCon.getContentEncoding();
-                    JSONArray respJSON = new JSONArray(respStr);
+                    Log.d("DE", "The response is: " + response);
+                    is = httpCon.getInputStream();
+                    // Convert the InputStream into a string
+                    String contentAsString = Util.readIt(is);
+
+                    Log.d("respuesta", contentAsString);
+                    JSONArray respJSON = new JSONArray(contentAsString);
 
                     for (int i = 0; i < respJSON.length(); i++) {
 
                         JSONObject obj = respJSON.getJSONObject(i);
-
                         ProductoComida pc = new ProductoComida(
                                 obj.getInt("id"),
                                 obj.getString("name"),
-                                obj.getString("descripcion"),
+                                obj.getString("description"),
                                 obj.getString("image"));
                         vectorProductoComida.add(i, pc);
                     }
 
                 }
-
             } catch (JSONException e1) {
                 e1.printStackTrace();
             } catch (IOException e1) {
@@ -101,7 +110,7 @@ public class FragmentoListaProductoComida extends Fragment {
             return true;
         }
 
-            @Override
+        @Override
         protected void onPreExecute() {
             super.onPreExecute();
             dialogo.show();
@@ -115,12 +124,9 @@ public class FragmentoListaProductoComida extends Fragment {
             listViewProductoComida = (ListView) getView().findViewById(android.R.id.list);
             listViewProductoComida.setAdapter(adaptador);
 
-            if ( vectorProductoComida.size() == 0)
-            {
+            if (vectorProductoComida.size() == 0) {
                 getView().findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
-            }
-            else
-            {
+            } else {
                 getView().findViewById(android.R.id.empty).setVisibility(View.GONE);
             }
 
@@ -130,7 +136,6 @@ public class FragmentoListaProductoComida extends Fragment {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
                 }
             });

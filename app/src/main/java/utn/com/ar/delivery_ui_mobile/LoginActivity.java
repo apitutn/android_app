@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("username", userName).apply();
 
-            Intent intentMenu = new Intent(LoginActivity.this, ListaProductoComida.class);
+            Intent intentMenu = new Intent(LoginActivity.this, SelectionActivity.class);
             startActivity(intentMenu);
             finish();
 //            showProgress(true);
