@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeightLarge"
-    android:padding="7dp" >
+    android:padding="7dp">
 
 
     <ImageView
@@ -10,21 +10,21 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
-        android:src="@mipmap/ic_launcher"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/textViewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/imageViewProducto"
         android:layout_alignParentTop="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:singleLine="true"
-        android:textColor="#0B0B61"
-        android:text="Nombre del producto"
+        android:layout_toRightOf="@id/imageViewProducto"
         android:gravity="left"
-        android:textSize="15sp"/>
+        android:singleLine="true"
+        android:text="Nombre del producto"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#0B0B61"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textViewID"
@@ -35,8 +35,5 @@
         android:layout_toRightOf="@id/imageViewProducto"
         android:gravity="center_vertical"
         android:text=""
-        android:textSize="12sp" >
-    </TextView>
-
-
+        android:textSize="12sp"></TextView>
 </RelativeLayout>

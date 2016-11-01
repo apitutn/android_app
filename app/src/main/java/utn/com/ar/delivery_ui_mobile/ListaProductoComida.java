@@ -1,11 +1,12 @@
 package utn.com.ar.delivery_ui_mobile;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.View;
 
-/**
- * Created by Juanca on 30/10/16.
- */
 public class ListaProductoComida extends Activity {
 
     @Override
@@ -13,5 +14,14 @@ public class ListaProductoComida extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.lista_productos_comida);
+    }
+
+    public void cerrarSesion(View v) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.remove("username").apply();
+        Intent intentFirst = new Intent(ListaProductoComida.this, FirstActivity.class);
+        startActivity(intentFirst);
+        finish();
     }
 }

@@ -1,16 +1,13 @@
 package utn.com.ar.delivery_ui_mobile.registro;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -18,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,12 +25,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
-import java.util.Calendar;
-import java.util.Date;
 
+import utn.com.ar.delivery_ui_mobile.FirstActivity;
 import utn.com.ar.delivery_ui_mobile.R;
+import utn.com.ar.delivery_ui_mobile.deliveryApp;
 import utn.com.ar.delivery_ui_mobile.domain.Usuario;
-import utn.com.ar.delivery_ui_mobile.util.Constants;
 import utn.com.ar.delivery_ui_mobile.util.Util;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -56,25 +53,8 @@ public class RegisterActivity extends AppCompatActivity {
         etName = (EditText) findViewById(R.id.etName);
         etApe = (EditText) findViewById(R.id.etApe);
         etEmail = (EditText) findViewById(R.id.etMail);
-        etPhone = (EditText) findViewById(R.id.phoneNumber);
 
         botonRegistrarse = (Button) findViewById(R.id.btReg);
-
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_SMS},
-                    Constants.MY_PERMISSIONS_READ_SMS);
-        } else {
-            TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-            mPhoneNumber = tMgr.getLine1Number();
-            if (mPhoneNumber != null) {
-                etPhone.setText(mPhoneNumber);
-            }
-        }
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TypedValue typedValueColorPrimaryDark = new TypedValue();
         RegisterActivity.this.getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValueColorPrimaryDark, true);
@@ -82,7 +62,6 @@ public class RegisterActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
-
     }
 
     public void registrar(View v) {
@@ -91,10 +70,6 @@ public class RegisterActivity extends AppCompatActivity {
         final String name = etName.getText().toString();
         final String email = etEmail.getText().toString();
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(mYear, mMonth, mDay);
-        Date fechaNac = cal.getTime();
-
         usuario = new Usuario(user, name, pasw, email);
         Log.d(TAG, "se inicio registrar");
         Log.d(TAG, usuario.getUser());
@@ -102,9 +77,30 @@ public class RegisterActivity extends AppCompatActivity {
         Log.d(TAG, usuario.getMail());
         Log.d(TAG, usuario.getNombre());
 
-        if (validarUsuario(usuario)) {
+        if (!validarUsuario(usuario)) {
             focusView.requestFocus();
             return;
+        } else {
+            // set
+            try {
+                ((deliveryApp) this.getApplication()).addUsuario(usuario);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+                Toast.makeText(getApplicationContext(), "El usuario ya existe.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            new AlertDialog.Builder(RegisterActivity.this)
+                    .setTitle("Registro Exitoso")
+                    .setMessage("Se ha registrado con exito el nuevo usuario")
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(RegisterActivity.this, FirstActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .show();
         }
     }
 
@@ -115,35 +111,35 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public boolean validarUsuario(Usuario user) {
-        boolean cancel = false;
+        boolean cancel = true;
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(user.getClave()) && !Util.isPasswordValid(user.getClave())) {
             etPasw.setError(getString(R.string.error_invalid_password));
             focusView = etPasw;
-            cancel = true;
+            cancel = false;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(user.getMail())) {
             etEmail.setError(getString(R.string.error_field_required));
             focusView = etEmail;
-            cancel = true;
+            cancel = false;
         } else if (!Util.isEmailValid(user.getMail())) {
             etEmail.setError(getString(R.string.error_invalid_email));
             focusView = etEmail;
-            cancel = true;
+            cancel = false;
         }
 
         // Check for a valid user name
         if (TextUtils.isEmpty(user.getUser())) {
             etUser.setError(getString(R.string.error_field_required));
             focusView = etUser;
-            cancel = true;
+            cancel = false;
         } else if (user.getUser().length() > 10) {
             etUser.setError(getString(R.string.error_invalid_user));
             focusView = etUser;
-            cancel = true;
+            cancel = false;
         }
 
         // Check for a valid name.
@@ -154,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (user.getNombre().length() < 3) {
             etName.setError(getString(R.string.error_invalid_name));
             focusView = etName;
-            cancel = true;
+            cancel = false;
         }
 
         return cancel;
@@ -165,7 +161,6 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... urls) {
             Log.d("34", urls[0]);
-//            TODO aca estaria el JSON, hay que descomponerlo o probar mandarlo asi.
             try {
                 HttpURLConnection httpCon = Util.crearHttpPost("signup", "POST", "application/json");
                 OutputStreamWriter wr = new OutputStreamWriter(httpCon.getOutputStream());
@@ -208,9 +203,22 @@ public class RegisterActivity extends AppCompatActivity {
 
         @Override
         public void onPostExecute(String response) {
+            if (response != null) {
+                new AlertDialog.Builder(RegisterActivity.this)
+                        .setTitle("Registro Exitoso")
+                        .setMessage("Se ha registrado con exito el nuevo usuario")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+            } else {
+                Toast.makeText(RegisterActivity.this, "No se puede registrar el usuario en este momento", Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
-
     }
-
 
 }

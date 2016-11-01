@@ -3,20 +3,12 @@ package utn.com.ar.delivery_ui_mobile;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,8 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,13 +31,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
-import java.util.ArrayList;
-import java.util.List;
 
+import utn.com.ar.delivery_ui_mobile.domain.Usuario;
 import utn.com.ar.delivery_ui_mobile.util.Constants;
 import utn.com.ar.delivery_ui_mobile.util.Util;
 
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -108,13 +97,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    }
-
-    /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
@@ -154,15 +136,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            InputMethodManager inputManager = (InputMethodManager)
-                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            Usuario usuario = ((deliveryApp) this.getApplication()).getUsuarioLogeado(userName);
+            if (usuario == null) {
+                Toast.makeText(getApplicationContext(), "El usuario no existe", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!usuario.getClave().equals(password)) {
+                Toast.makeText(getApplicationContext(), "La contraseña es incorrecta.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ((deliveryApp) this.getApplication()).setLoggedUser(usuario);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("username", userName).apply();
 
-            inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-            mAuthTask = new UserLoginTask(userName, password);
-            mAuthTask.execute((Void) null);
-
+            Intent intentMenu = new Intent(LoginActivity.this, ListaProductoComida.class);
+            startActivity(intentMenu);
+            finish();
+//            showProgress(true);
+//            InputMethodManager inputManager = (InputMethodManager)
+//                    getSystemService(Context.INPUT_METHOD_SERVICE);
+//
+//            inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(),
+//                    InputMethodManager.HIDE_NOT_ALWAYS);
+//            mAuthTask = new UserLoginTask(userName, password);
+//            mAuthTask.execute((Void) null);
         }
     }
 
@@ -202,55 +200,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-        addEmailsToAutoComplete(emails);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(LoginActivity.this, android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mUserNameView.setAdapter(adapter);
-    }
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-    }
-
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -266,10 +215,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mPassword = password;
         }
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
+        protected Boolean callApi() {
             try {
                 HttpURLConnection httpCon = Util.crearHttpPost("autenticacion", "POST", "application/x-www-form-urlencoded; charset=UTF-8");
                 OutputStreamWriter wr = new OutputStreamWriter(httpCon.getOutputStream());
@@ -311,6 +257,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 e.printStackTrace();
             }
             return false;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            return callApi();
         }
 
         @Override

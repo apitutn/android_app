@@ -75,17 +75,6 @@
             android:hint="@string/prompt_email"
             android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/phoneNumber"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/etApe"
-            android:layout_below="@+id/etMail"
-            android:layout_gravity="center_horizontal"
-            android:ems="10"
-            android:hint="@string/prompt_phoneNumber"
-            android:inputType="phone" />
-
         <Button
             android:id="@+id/btReg"
             android:layout_width="match_parent"

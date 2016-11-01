@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,10 +23,6 @@ import java.util.ArrayList;
 
 import utn.com.ar.delivery_ui_mobile.util.Util;
 
-
-/**
- * Created by Juanca on 18/9/16.
- */
 public class FragmentoListaProductoComida extends Fragment {
 
     private View contexto;
@@ -124,11 +117,11 @@ public class FragmentoListaProductoComida extends Fragment {
 
             if ( vectorProductoComida.size() == 0)
             {
-                ((TextView)getView().findViewById(android.R.id.empty)).setVisibility(View.VISIBLE);
+                getView().findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
             }
             else
             {
-                ((TextView)getView().findViewById(android.R.id.empty)).setVisibility(View.GONE);
+                getView().findViewById(android.R.id.empty).setVisibility(View.GONE);
             }
 
             dialogo.dismiss();

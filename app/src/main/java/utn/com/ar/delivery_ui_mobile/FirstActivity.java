@@ -34,6 +34,10 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
         String value = preferences.getString("username", null);
         if (value == null) {
             Log.d(TAG, "USUARIO ES NULO");
+        } else {
+            Intent intentMenu = new Intent(FirstActivity.this, ListaProductoComida.class);
+            startActivity(intentMenu);
+            finish();
         }
     }
 
@@ -59,6 +63,5 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }
-
 
 }

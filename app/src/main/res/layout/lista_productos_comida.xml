@@ -1,25 +1,32 @@
-
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-    </ListView>
+    <!--<ListView-->
+    <!--android:id="@android:id/list"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent">-->
+    <!--</ListView>-->
 
     <TextView
         android:id="@android:id/empty"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:text=" En estos momento no hay productos disponíbles"
         android:textColor="#040000"
         android:paddingTop="10dp"
         android:paddingLeft="10dp">
     </TextView>
 
-</FrameLayout>
+    <Button
+        android:id="@+id/btn_cerrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:onClick="cerrarSesion"
+        android:text="@string/action_sign_out" />
+</RelativeLayout>
