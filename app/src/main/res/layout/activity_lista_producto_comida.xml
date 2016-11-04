@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment
+   <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="utn.com.ar.delivery_ui_mobile.FragmentoListaProductoComida"
-        android:id="@+id/framentoListaProductoComida"
-        tools:layout="@layout/lista_productos_comida"></fragment>
-
-</LinearLayout>
+       android:id="@+id/fragmentolista" />
+</LinearLayout><!--android:name="utn.com.ar.delivery_ui_mobile.FragmentoListaProductoComida"--><!--tools:layout="@layout/lista_productos_comida">-->

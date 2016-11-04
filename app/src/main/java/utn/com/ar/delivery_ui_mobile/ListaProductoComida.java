@@ -27,8 +27,14 @@ public class ListaProductoComida extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_productos_comida);
+
+//        FragmentoListaProductoComida fragment = new FragmentoListaProductoComida();
+//
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.fragmentolista,(Fragment) FragmentoListaProductoComida.class);
     }
 
+    //    android.support.v4.app
     public void cerrarSesion(View v) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = settings.edit();
@@ -46,7 +52,7 @@ public class ListaProductoComida extends Activity {
 //        mRecyclerView.setAdapter(mAdapter);
 //        GetComidas task = new GetComidas();
 //        task.execute(Constants.URL + "productos/foods/");
-//    }
+//    }:
 
     private class GetComidas extends AsyncTask<String, Void, String> {
 

@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
 import utn.com.ar.delivery_ui_mobile.adapters.AdaptadorProductoComida;
 import utn.com.ar.delivery_ui_mobile.util.Util;
 
-public class FragmentoListaProductoComida extends Fragment {
+public class FragmentoListaProductoComida extends android.support.v4.app.Fragment {
     private View contexto;
     private AdaptadorProductoComida adaptador;
     private ArrayList<ProductoComida> vectorProductoComida;
@@ -34,9 +33,9 @@ public class FragmentoListaProductoComida extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+//        super.onCreateView(inflater, container, savedInstanceState);
 
-        Bundle args = getArguments();
+//        Bundle args = getArguments();
 
         FragmentoPiezaAsincronico tareaAsync = new FragmentoPiezaAsincronico(this.getActivity());
         tareaAsync.execute();
@@ -69,7 +68,7 @@ public class FragmentoListaProductoComida extends Fragment {
             try {
 
                 // Starts the query
-                HttpURLConnection httpCon = Util.crearHttpPost("products/foods", "GET", "application/x-www-form-urlencoded; charset=UTF-8");
+                HttpURLConnection httpCon = Util.crearHttpPost("products/foods", "GET", "application/json; charset=UTF-8");
                 httpCon.setReadTimeout(10000 /* milliseconds */);
                 httpCon.setConnectTimeout(15000 /* milliseconds */);
 

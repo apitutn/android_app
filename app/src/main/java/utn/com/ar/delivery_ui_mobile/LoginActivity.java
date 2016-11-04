@@ -3,12 +3,11 @@ package utn.com.ar.delivery_ui_mobile;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,11 +16,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,8 +35,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 
-import utn.com.ar.delivery_ui_mobile.domain.Usuario;
-import utn.com.ar.delivery_ui_mobile.util.Constants;
 import utn.com.ar.delivery_ui_mobile.util.Util;
 
 public class LoginActivity extends AppCompatActivity {
@@ -136,31 +137,28 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            Usuario usuario = ((deliveryApp) this.getApplication()).getUsuarioLogeado(userName);
-            if (usuario == null) {
-                Toast.makeText(getApplicationContext(), "El usuario no existe", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!usuario.getClave().equals(password)) {
-                Toast.makeText(getApplicationContext(), "La contraseña es incorrecta.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            ((deliveryApp) this.getApplication()).setLoggedUser(usuario);
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("username", userName).apply();
-
-            Intent intentMenu = new Intent(LoginActivity.this, SelectionActivity.class);
-            startActivity(intentMenu);
-            finish();
-//            showProgress(true);
-//            InputMethodManager inputManager = (InputMethodManager)
-//                    getSystemService(Context.INPUT_METHOD_SERVICE);
+//            Usuario usuario = ((deliveryApp) this.getApplication()).getUsuarioLogeado(userName);
+//            if (usuario == null) {
+//                Toast.makeText(getApplicationContext(), "El usuario no existe", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!usuario.getClave().equals(password)) {
+//                Toast.makeText(getApplicationContext(), "La contraseña es incorrecta.", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            ((deliveryApp) this.getApplication()).setLoggedUser(usuario);
+//            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//            SharedPreferences.Editor editor = settings.edit();
+//            editor.putString("username", userName).apply();
 //
-//            inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(),
-//                    InputMethodManager.HIDE_NOT_ALWAYS);
-//            mAuthTask = new UserLoginTask(userName, password);
-//            mAuthTask.execute((Void) null);
+            showProgress(true);
+            InputMethodManager inputManager = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+//
+            inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+            mAuthTask = new UserLoginTask(userName, password);
+            mAuthTask.execute((Void) null);
         }
     }
 
@@ -207,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUserName;
-        private final String mPassword;
+        private String mPassword;
         private String respuesta;
 
         UserLoginTask(String userName, String password) {
@@ -216,16 +214,20 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         protected Boolean callApi() {
+            HttpURLConnection httpCon = Util.crearHttpPost("login", "POST", "application/json; charset=UTF-8");
             try {
-                HttpURLConnection httpCon = Util.crearHttpPost("autenticacion", "POST", "application/x-www-form-urlencoded; charset=UTF-8");
                 OutputStreamWriter wr = new OutputStreamWriter(httpCon.getOutputStream());
-                String md5psw = Util.toMd5(mPassword);
-
-                wr.write("username=" + mUserName + "&password=" + md5psw);
+                mPassword = Util.toMd5(mPassword);
+                //Create JSONObject here
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("username", this.mUserName);
+                jsonParam.put("password", this.mPassword);
+                Log.d("Response message login", "***********" + jsonParam.toString());
+                wr.write(jsonParam.toString());
                 wr.flush();
                 wr.close();
 
-                if (httpCon.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                if (httpCon.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
                     Log.d("Response message login", "***********" + httpCon.getResponseMessage());
                     StringBuilder sb = new StringBuilder();
                     BufferedReader br = new BufferedReader(
@@ -255,6 +257,11 @@ public class LoginActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.d("login", "4");
                 e.printStackTrace();
+            } catch (JSONException e) {
+                Log.d("login", "5");
+                e.printStackTrace();
+            } finally {
+                httpCon.disconnect();
             }
             return false;
         }
@@ -269,10 +276,13 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-            if (success) {
-                String stUrl = Constants.URL + "usuarios/notificaciones";
-            } else {
+            if (!success) {
                 Toast.makeText(getApplicationContext(), "El usuario o la contraseña son incorrectas. Intentelo nuevamente", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d("login", tokenRespuesta);
+                Intent intentMenu = new Intent(LoginActivity.this, SelectionActivity.class);
+                startActivity(intentMenu);
+                finish();
             }
         }
 
