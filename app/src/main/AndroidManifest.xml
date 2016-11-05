@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
     <application
         android:name=".deliveryApp"
         android:allowBackup="true"
@@ -40,7 +41,9 @@
         <activity
             android:name=".ListaProductoComida"
             android:label="@string/listado_tittle" />
-        <activity android:name=".SelectionActivity"></activity>
+        <activity android:name=".SelectionActivity" />
+        <activity android:name=".ListaProductoBebida" />
+        <activity android:name=".ListaProductoPostre"></activity>
     </application>
 
 </manifest>

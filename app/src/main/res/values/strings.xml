@@ -6,8 +6,6 @@
     <string name="action_reg_in_short">Registrarse</string>
     <string name="listado_tittle">Listado de productos</string>
 
-
-
     <!-- Strings related to perfil del usuario  -->
     <string name="userName">Nombre de Usuario</string>
     <string name="prompt_user">Usuario</string>
@@ -33,7 +31,8 @@
     <string name="selectFood">Seleccionar Comida</string>
     <string name="comida">Comida</string>
     <string name="bebida">Bebida</string>
-    <string name="selectDessert">Seleccionar Postre</string>
+    <string name="select_dessert">Seleccionar Postre</string>
+    <string name="select_drink">Seleccionar Bebida</string>
     <string name="postre">Postre</string>
     <string name="selecciona_una_opcion">seleccionar una opcion</string>
 </resources>

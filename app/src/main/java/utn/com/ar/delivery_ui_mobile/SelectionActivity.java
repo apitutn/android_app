@@ -15,22 +15,22 @@ public class SelectionActivity extends AppCompatActivity {
 
         EditText etFood = (EditText) this.findViewById(R.id.etFood);
         EditText etBebida = (EditText) this.findViewById(R.id.etBebida);
-        EditText etPostre = (EditText) this.findViewById(R.id.etPostre);
+        EditText etDessert = (EditText) this.findViewById(R.id.etPostre);
 
         Intent myIntent = getIntent();
         if (myIntent != null){
             if(myIntent.getStringExtra("comida") != null)
                 etFood.setText(myIntent.getStringExtra("comida").toString());
             if(myIntent.getStringExtra("bebida") != null)
-                etFood.setText(myIntent.getStringExtra("bebida").toString());
+                etBebida.setText(myIntent.getStringExtra("bebida").toString());
             if(myIntent.getStringExtra("postre") != null)
-                etFood.setText(myIntent.getStringExtra("postre").toString());
+                etDessert.setText(myIntent.getStringExtra("postre").toString());
         }
     }
 
 
     public void selectDrink(View v) {
-        Intent intent = new Intent(SelectionActivity.this, ListaProductoComida.class);
+        Intent intent = new Intent(SelectionActivity.this, ListaProductoBebida.class);
         startActivity(intent);
         finish();
     }
@@ -41,8 +41,8 @@ public class SelectionActivity extends AppCompatActivity {
         finish();
     }
 
-    public void selectPostre(View v) {
-        Intent intent = new Intent(SelectionActivity.this, ListaProductoComida.class);
+    public void selectDessert(View v) {
+        Intent intent = new Intent(SelectionActivity.this, ListaProductoPostre.class);
         startActivity(intent);
         finish();
     }

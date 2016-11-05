@@ -11,15 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="utn.com.ar.delivery_ui_mobile.SelectionActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ToolbarTheme" />
-
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -73,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:onClick="selectDrink"
-                android:text="@string/selectFood" />
+                android:text="@string/select_drink" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,8 +94,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:onClick="selectPostre"
-                android:text="@string/selectDessert" />
+                android:onClick="selectDessert"
+                android:text="@string/select_dessert" />
 
             <LinearLayout
                 android:layout_width="match_parent"
