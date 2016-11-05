@@ -279,7 +279,7 @@ public class LoginActivity extends AppCompatActivity {
             if (!success) {
                 Toast.makeText(getApplicationContext(), "El usuario o la contraseña son incorrectas. Intentelo nuevamente", Toast.LENGTH_SHORT).show();
             } else {
-                Log.d("login", tokenRespuesta);
+                //Log.d("login", tokenRespuesta);
                 Intent intentMenu = new Intent(LoginActivity.this, SelectionActivity.class);
                 startActivity(intentMenu);
                 finish();

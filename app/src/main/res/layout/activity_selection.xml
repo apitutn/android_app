@@ -23,7 +23,9 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -52,7 +54,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/etSelectFood"
+                        android:id="@+id/etFood"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -83,7 +85,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/etFood"
+                        android:id="@+id/etBebida"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -114,7 +116,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/etContacto"
+                        android:id="@+id/etPostre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"

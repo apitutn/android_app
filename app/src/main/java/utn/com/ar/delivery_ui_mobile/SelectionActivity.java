@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 
 public class SelectionActivity extends AppCompatActivity {
 
@@ -12,6 +13,19 @@ public class SelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
+        EditText etFood = (EditText) this.findViewById(R.id.etFood);
+        EditText etBebida = (EditText) this.findViewById(R.id.etBebida);
+        EditText etPostre = (EditText) this.findViewById(R.id.etPostre);
+
+        Intent myIntent = getIntent();
+        if (myIntent != null){
+            if(myIntent.getStringExtra("comida") != null)
+                etFood.setText(myIntent.getStringExtra("comida").toString());
+            if(myIntent.getStringExtra("bebida") != null)
+                etFood.setText(myIntent.getStringExtra("bebida").toString());
+            if(myIntent.getStringExtra("postre") != null)
+                etFood.setText(myIntent.getStringExtra("postre").toString());
+        }
     }
 
 

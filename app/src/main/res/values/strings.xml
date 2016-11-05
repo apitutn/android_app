@@ -35,4 +35,5 @@
     <string name="bebida">Bebida</string>
     <string name="selectDessert">Seleccionar Postre</string>
     <string name="postre">Postre</string>
+    <string name="selecciona_una_opcion">seleccionar una opcion</string>
 </resources>

@@ -10,6 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import utn.com.ar.delivery_ui_mobile.ProductoComida;
@@ -60,11 +64,9 @@ public class AdaptadorProductoComida extends BaseAdapter {
 		textViewNombre.setText(listaProductoComida.get(position).getNombre());
 		textViewID.setText("ID #"+ listaProductoComida.get(position).getId().toString());
 
-		if (listaProductoComida.get(position).getImagen() != null) {
+		if (listaProductoComida.get(position).getImagen() != null)
+			((ImageView) view.findViewById(R.id.imageViewProducto)).setImageBitmap(listaProductoComida.get(position).getImagen());
 
-			Bitmap bitmap = BitmapFactory.decodeByteArray(listaProductoComida.get(position).getImagen(), 0, listaProductoComida.get(position).getImagen().length);
-			((ImageView) view.findViewById(R.id.imageViewProducto)).setImageBitmap(bitmap);
-		}
 		return view;
 	}
 

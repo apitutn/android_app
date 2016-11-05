@@ -1,5 +1,7 @@
 package utn.com.ar.delivery_ui_mobile;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 
@@ -8,21 +10,22 @@ public class ProductoComida implements Serializable {
     private Integer id;
     private String descripcion;
     private String nombre;
-    private byte[] imagen;
+    private Bitmap imagen;
     private String urlImagen;
 
-    public ProductoComida(Integer id, String nombre, String descripcion, String URLimagen) {
+    public ProductoComida(Integer id, String nombre, String descripcion, String URLimage, Bitmap bmp) {
         this.id = id;
         this.descripcion = descripcion;
         this.nombre = nombre;
-        this.urlImagen = urlImagen;
+        this.urlImagen = URLimage;
+        this.imagen = bmp;
     }
 
-    public byte[] getImagen() {
+    public Bitmap getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(Bitmap imagen) {
         this.imagen = imagen;
     }
 
@@ -50,6 +53,12 @@ public class ProductoComida implements Serializable {
         this.nombre = nombre;
     }
 
+    public String getUrlImagen() {
+        return urlImagen;
+    }
 
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
+    }
 
 }

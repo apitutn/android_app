@@ -1,8 +1,8 @@
 package utn.com.ar.delivery_ui_mobile.util;
 
 public class Constants {
-    public static final String URL = "https://apit.ko.tl/api/";
-    //    public static final String URL = "https://private-anon-7e9df0bdfc-apit1.apiary-mock.com/";
+    //public static final String URL = "https://apit.ko.tl/api/";
+    public static final String URL = "https://private-anon-7e9df0bdfc-apit1.apiary-mock.com/";
     //    public static final int IMAGE_GALLERY_REQUEST = 20;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 12;
     public static final int REQUEST_CAMERA = 1;
