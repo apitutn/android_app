@@ -34,7 +34,6 @@ public class SelectionActivity extends AppCompatActivity {
         }
 
         editor.commit();
-
         etFood.setText(pref.getString("comida", ""));
         etBebida.setText(pref.getString("bebida", ""));
         etDessert.setText(pref.getString("postre", ""));
