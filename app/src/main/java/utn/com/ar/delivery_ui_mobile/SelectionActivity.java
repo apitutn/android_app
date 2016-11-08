@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,10 @@ public class SelectionActivity extends AppCompatActivity {
     TextView etBebida;
     TextView etDessert;
     EditText etDireccion;
+    RadioButton rbEta;
+    RadioButton rbPrecio;
+
+    private String tokenRespuesta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,8 @@ public class SelectionActivity extends AppCompatActivity {
         etDessert = (TextView) this.findViewById(R.id.etPostre);
         etDireccion = (EditText) this.findViewById(R.id.etDireccion);
 
+        rbEta = (RadioButton) this.findViewById(R.id.radio_ETA);
+        rbPrecio = (RadioButton) this.findViewById(R.id.radio_precio);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
@@ -71,15 +78,16 @@ public class SelectionActivity extends AppCompatActivity {
         final String bebida = etBebida.getText().toString();
         final String postre = etDessert.getText().toString();
         final String direccion = etDireccion.getText().toString();
+        String criteria = null;
 
         if (comida.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Debe seleccionar la comida.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (bebida.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Debe seleccionar la bebida.", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (bebida.isEmpty()) {
+//            Toast.makeText(getApplicationContext(), "Debe seleccionar la bebida.", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         if (postre.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Debe seleccionar el postre.", Toast.LENGTH_SHORT).show();
         }
@@ -87,8 +95,20 @@ public class SelectionActivity extends AppCompatActivity {
         if (direccion.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Debe ingresar una dirección", Toast.LENGTH_SHORT).show();
         }
-//        Intent intent = new Intent(SelectionActivity.this, .class);
-//        startActivity(intent);
-//        finish();
+
+        if (rbEta.isChecked()) {
+            criteria = "lessETA";
+        } else if (rbPrecio.isChecked()) {
+            criteria = "lessPrice";
+        } else {
+            Toast.makeText(getApplicationContext(), "Debe seleccionar un criterio.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(SelectionActivity.this, confirmation.class);
+        intent.putExtra("criteria", criteria);
+        startActivity(intent);
+        finish();
     }
+
 }

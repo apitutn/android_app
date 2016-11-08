@@ -147,6 +147,42 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/select_criteria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/tvCriterio"
+                    android:layout_width="102dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:maxLines="1"
+                    android:text="@string/text_criterio"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radio_ETA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ETA" />
+
+                    <RadioButton
+                        android:id="@+id/radio_precio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Precio" />
+                </RadioGroup>
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btProcesarPedido"
                 android:layout_width="match_parent"
