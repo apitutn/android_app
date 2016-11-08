@@ -84,10 +84,10 @@ public class SelectionActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Debe seleccionar la comida.", Toast.LENGTH_SHORT).show();
             return;
         }
-//        if (bebida.isEmpty()) {
-//            Toast.makeText(getApplicationContext(), "Debe seleccionar la bebida.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        if (bebida.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Debe seleccionar la bebida.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (postre.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Debe seleccionar el postre.", Toast.LENGTH_SHORT).show();
         }
@@ -108,7 +108,9 @@ public class SelectionActivity extends AppCompatActivity {
         Intent intent = new Intent(SelectionActivity.this, confirmation.class);
         intent.putExtra("criteria", criteria);
         startActivity(intent);
+        etFood.setText(null);
+        etBebida.setText(null);
+        etDessert.setText(null);
         finish();
     }
-
 }

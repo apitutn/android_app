@@ -111,49 +111,49 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public boolean validarUsuario(Usuario user) {
-        boolean cancel = true;
+        boolean validado = true;
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(user.getClave()) && !Util.isPasswordValid(user.getClave())) {
             etPasw.setError(getString(R.string.error_invalid_password));
             focusView = etPasw;
-            cancel = false;
+            validado = false;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(user.getMail())) {
             etEmail.setError(getString(R.string.error_field_required));
             focusView = etEmail;
-            cancel = false;
+            validado = false;
         } else if (!Util.isEmailValid(user.getMail())) {
             etEmail.setError(getString(R.string.error_invalid_email));
             focusView = etEmail;
-            cancel = false;
+            validado = false;
         }
 
         // Check for a valid user name
         if (TextUtils.isEmpty(user.getUser())) {
             etUser.setError(getString(R.string.error_field_required));
             focusView = etUser;
-            cancel = false;
+            validado = false;
         } else if (user.getUser().length() > 10) {
             etUser.setError(getString(R.string.error_invalid_user));
             focusView = etUser;
-            cancel = false;
+            validado = false;
         }
 
         // Check for a valid name.
         if (TextUtils.isEmpty(user.getNombre())) {
             etName.setError(getString(R.string.error_field_required));
             focusView = etName;
-            cancel = true;
+            validado = false;
         } else if (user.getNombre().length() < 3) {
             etName.setError(getString(R.string.error_invalid_name));
             focusView = etName;
-            cancel = false;
+            validado = false;
         }
 
-        return cancel;
+        return validado;
     }
 
     private class DownloadWebPageTask extends AsyncTask<String, Void, String> {

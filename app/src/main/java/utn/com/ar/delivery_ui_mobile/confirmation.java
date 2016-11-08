@@ -39,6 +39,7 @@ public class confirmation extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         eta = (TextView) this.findViewById(R.id.tvEta);
+        eta.setText(null);
         price = (TextView) this.findViewById(R.id.tvPrecio);
         Intent myIntent = getIntent();
         String criteria = null;
@@ -52,10 +53,12 @@ public class confirmation extends AppCompatActivity {
 
     public void enviarPedido(View v) {
         //Log.d("login", tokenRespuesta);
-        Toast.makeText(getApplicationContext(), "El pedido se ha realizado con exito.", Toast.LENGTH_SHORT).show();
-        Intent intentMenu = new Intent(confirmation.this, SelectionActivity.class);
-        startActivity(intentMenu);
-        finish();
+        if (eta.getText() != null) {
+            Toast.makeText(getApplicationContext(), "El pedido se ha realizado con exito.", Toast.LENGTH_SHORT).show();
+            Intent intentMenu = new Intent(confirmation.this, SelectionActivity.class);
+            startActivity(intentMenu);
+            finish();
+        }
     }
 
     public class ProcesarPedidoTask extends AsyncTask<Void, Void, Boolean> {
