@@ -43,7 +43,16 @@
             android:label="@string/listado_tittle" />
         <activity android:name=".SelectionActivity" />
         <activity android:name=".ListaProductoBebida" />
-        <activity android:name=".ListaProductoPostre"></activity>
+        <activity android:name=".ListaProductoPostre" />
+        <activity
+            android:name=".confirmation"
+            android:label="@string/title_activity_confirmation"
+            android:parentActivityName=".SelectionActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="utn.com.ar.delivery_ui_mobile.SelectionActivity" />
+        </activity>
     </application>
 
 </manifest>

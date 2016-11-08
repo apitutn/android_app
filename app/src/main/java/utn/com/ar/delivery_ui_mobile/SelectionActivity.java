@@ -6,22 +6,29 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class SelectionActivity extends AppCompatActivity {
+
+    TextView etFood;
+    TextView etBebida;
+    TextView etDessert;
+    EditText etDireccion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
-        EditText etFood = (EditText) this.findViewById(R.id.etFood);
-        EditText etBebida = (EditText) this.findViewById(R.id.etBebida);
-        EditText etDessert = (EditText) this.findViewById(R.id.etPostre);
+        etFood = (TextView) this.findViewById(R.id.etFood);
+        etBebida = (TextView) this.findViewById(R.id.etBebida);
+        etDessert = (TextView) this.findViewById(R.id.etPostre);
+        etDireccion = (EditText) this.findViewById(R.id.etDireccion);
+
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
-
-
 
         Intent myIntent = getIntent();
         if (myIntent != null){
@@ -56,5 +63,32 @@ public class SelectionActivity extends AppCompatActivity {
         Intent intent = new Intent(SelectionActivity.this, ListaProductoPostre.class);
         startActivity(intent);
         finish();
+    }
+
+
+    public void procesarPedido(View v) {
+        final String comida = etFood.getText().toString();
+        final String bebida = etBebida.getText().toString();
+        final String postre = etDessert.getText().toString();
+        final String direccion = etDireccion.getText().toString();
+
+        if (comida.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Debe seleccionar la comida.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (bebida.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Debe seleccionar la bebida.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (postre.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Debe seleccionar el postre.", Toast.LENGTH_SHORT).show();
+        }
+
+        if (direccion.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Debe ingresar una dirección", Toast.LENGTH_SHORT).show();
+        }
+//        Intent intent = new Intent(SelectionActivity.this, .class);
+//        startActivity(intent);
+//        finish();
     }
 }

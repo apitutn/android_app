@@ -35,4 +35,9 @@
     <string name="select_drink">Seleccionar Bebida</string>
     <string name="postre">Postre</string>
     <string name="selecciona_una_opcion">seleccionar una opcion</string>
+    <string name="action_procesar">Realizar pedido</string>
+    <string name="title_activity_confirmation">Confirmación</string>
+    <string name="text_direccion">Dirección</string>
+    <string name="text_criterio">Criterio de selección</string>
+    <string name="action_enviar">Enviar Pedido</string>
 </resources>
